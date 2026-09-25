@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ورود مدیر | پینگ پنگ مدرسه</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef4ff,
+                    #f7f9fc
+                );
+
+            min-height: 100vh;
+
+            color: #172033;
+        }
+
+        .page {
+            min-height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        header {
+            background: white;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            padding: 18px 20px;
+        }
+
+        .header-content {
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+
+            font-weight: bold;
+        }
+
+        .home-link {
+            text-decoration: none;
+
+            color: #1769ff;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+        .main {
+            flex: 1;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 40px 20px;
+        }
+
+        .login-box {
+            width: 100%;
+
+            max-width: 430px;
+
+            background: white;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 22px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(20, 40, 80, 0.10);
+        }
+
+        .icon {
+            width: 75px;
+
+            height: 75px;
+
+            margin:
+                0 auto 20px;
+
+            border-radius: 20px;
+
+            background: #eef4ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 38px;
+        }
+
+        .title {
+            text-align: center;
+        }
+
+        .title h1 {
+            font-size: 27px;
+
+            margin-bottom: 8px;
+        }
+
+        .title p {
+            color: #6b7280;
+
+            font-size: 14px;
+
+            line-height: 2;
+
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+
+            border:
+                1px solid #dfe3ea;
+
+            border-radius: 11px;
+
+            padding: 13px;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #1769ff;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(23,105,255,0.10);
+        }
+
+        .password-row {
+            position: relative;
+        }
+
+        .show-password {
+            position: absolute;
+
+            left: 10px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            font-size: 16px;
+        }
+
+        .login-button {
+            width: 100%;
+
+            border: none;
+
+            border-radius: 11px;
+
+            padding: 14px;
+
+            background: #1769ff;
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+
+            transition: 0.2s;
+        }
+
+        .login-button:hover {
+            background: #0d4dcc;
+        }
+
+        .message {
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background: #fff4e5;
+
+            color: #9a5b00;
+
+            font-size: 13px;
+
+            line-height: 1.8;
+        }
+
+        .back {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            text-decoration: none;
+
+            color: #1769ff;
+
+            font-size: 13px;
+        }
+
+        .security {
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid #e5e7eb;
+
+            color: #6b7280;
+
+            font-size: 12px;
+
+            text-align: center;
+
+            line-height: 1.9;
+        }
+
+        footer {
+            background: #111827;
+
+            color: #d1d5db;
+
+            text-align: center;
+
+            padding: 25px 20px;
+
+            line-height: 2;
+
+            font-size: 13px;
+        }
+
+        .creator {
+            color: white;
+
+            font-weight: bold;
+        }
+
+        @media (max-width: 500px) {
+
+            .login-box {
+                padding: 25px 20px;
+            }
+
+            .title h1 {
+                font-size: 23px;
+            }
+
+            .header-content {
+                justify-content: center;
+            }
+
+            .home-link {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <header>
+
+        <div class="header-content">
+
+            <div class="logo">
+                🏓 مسابقات پینگ پنگ مدرسه
+            </div>
+
+            <a
+                href="index.html"
+                class="home-link"
+            >
+                ← بازگشت به سایت
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <main class="main">
+
+
+        <section class="login-box">
+
+
+            <div class="icon">
+                🔐
+            </div>
+
+
+            <div class="title">
+
+                <h1>
+                    ورود مدیر
+                </h1>
+
+                <p>
+                    برای ورود به پنل مدیریت،
+                    اطلاعات حساب مدیر را وارد کنید.
+                </p>
+
+            </div>
+
+
+
+            <form
+                id="loginForm"
+            >
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        ایمیل مدیر
+                    </label>
+
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="ایمیل مدیر"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        رمز عبور
+                    </label>
+
+
+                    <div class="password-row">
+
+                        <input
+                            id="password"
+                            type="password"
+                            placeholder="رمز عبور"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="show-password"
+                            onclick="togglePassword()"
+                            aria-label="نمایش رمز عبور"
+                        >
+                            👁️
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <button
+                    type="submit"
+                    class="login-button"
+                >
+                    ورود به پنل مدیریت
+                </button>
+
+
+                <div
+                    id="message"
+                    class="message"
+               
