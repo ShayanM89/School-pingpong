@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>مسابقات | پینگ پنگ مدرسه</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 18px 20px;
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #4b5563;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        nav a:hover {
+            background: #eef4ff;
+            color: #1769ff;
+        }
+
+        nav a.active {
+            background: #eef4ff;
+            color: #1769ff;
+            font-weight: bold;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #1769ff, #4f8cff);
+            color: white;
+            padding: 60px 20px;
+        }
+
+        .page-header-content {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .page-header h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            font-size: 17px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .content {
+            padding-top: 50px;
+            padding-bottom: 70px;
+        }
+
+        .info-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+
+        .info-card h2 {
+            margin-bottom: 8px;
+        }
+
+        .info-card p {
+            color: #6b7280;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid #e5e7eb;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            min-width: 650px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8faff;
+            color: #4b5563;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            padding: 18px 15px;
+            text-align: right;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .player {
+            font-weight: bold;
+        }
+
+        .score {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1769ff;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .finished {
+            background: #e8f8ef;
+            color: #168348;
+        }
+
+        .waiting {
+            background: #fff5db;
+            color: #a66a00;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #6b7280;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background: #111827;
+            color: #d1d5db;
+            text-align: center;
+            padding: 30px 20px;
+            line-height: 2;
+        }
+
+        .creator {
+            color: white;
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+
+            .header-content {
+                flex-direction: column;
+            }
+
+            .logo {
+                text-align: center;
+            }
+
+            nav {
+                justify-content: center;
+            }
+
+            .page-header {
+                padding: 45px 20px;
+            }
+
+            .page-header h1 {
+                font-size: 32px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-content">
+
+        <div class="logo">
+            🏓 مسابقات پینگ پنگ مدرسه
+        </div>
+
+        <nav>
+
+            <a href="index.html">
+                خانه
+            </a>
+
+            <a href="matches.html" class="active">
+                مسابقات
+            </a>
+
+            <a href="#">
+                رده‌بندی
+            </a>
+
+            <a href="#">
+                ورود مدیر
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<section class="page-header">
+
+    <div class="page-header-content">
+
+        <h1>
+            🏓 مسابقات
+        </h1>
+
+        <p>
+            مشاهده برنامه و نتایج مسابقات لیگ
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<main class="container content">
+
+
+    <div class="info-card">
+
+        <h2>
+            مسابقات لیگ مدرسه
+        </h2>
+
+        <p>
+            تمام بازی‌های برگزارشده و برنامه بازی‌های آینده
+            در این صفحه نمایش داده خواهند شد.
+        </p>
+
+    </div>
+
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        #
+                    </th>
+
+                    <th>
+                        بازیکن اول
+                    </th>
+
+                    <th>
+                        نتیجه
+                    </th>
+
+                    <th>
+                        بازیکن دوم
+                    </th>
+
+                    <th>
+                        وضعیت
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <!--
+                    بعداً این اطلاعات
+                    به صورت خودکار
+                    از دیتابیس می‌آیند.
+                -->
+
+
+                <tr>
+
+                    <td>
+                        1
+                    </td>
+
+                    <td class="player">
+                        بازیکن اول
+                    </td>
+
+                    <td class="score">
+                        3 - 1
+                    </td>
+
+                    <td class="player">
+                        بازیکن دوم
+                    </td>
+
+                    <td>
+
+                        <span class="status finished">
+                            پایان یافته
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        2
+                    </td>
+
+                    <td class="player">
+                        بازیکن سوم
+                    </td>
+
+                    <td class="score">
+                        2 - 3
+                    </td>
+
+                    <td class="player">
+                        بازیکن چهارم
+                    </td>
+
+                    <td>
+
+                        <span class="status finished">
+                            پایان یافته
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        3
+                    </td>
+
+                    <td class="player">
+                        بازیکن پنجم
+                    </td>
+
+                    <td class="score">
+                        -
+                    </td>
+
+                    <td class="player">
+                        بازیکن ششم
+                    </td>
+
+                    <td>
+
+                        <span class="status waiting">
+                            برگزار نشده
+                        </span>
+
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</main>
+
+
+
+<footer>
+
+    <div>
+        © شایان محمدی
+    </div>
+
+    <div class="creator">
+        Created by SHM89
+    </div>
+
+</footer>
+
+
+</body>
+
+  </html>
