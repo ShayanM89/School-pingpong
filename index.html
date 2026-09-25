@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>مسابقات پینگ پنگ مدرسه</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 18px 20px;
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #4b5563;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        nav a:hover {
+            background: #eef4ff;
+            color: #1769ff;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1769ff, #4f8cff);
+            color: white;
+            padding: 80px 20px;
+        }
+
+        .hero-content {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.18);
+            padding: 7px 12px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(32px, 6vw, 58px);
+            line-height: 1.3;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 650px;
+            line-height: 2;
+            opacity: 0.95;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .button-white {
+            background: white;
+            color: #1769ff;
+        }
+
+        .button-dark {
+            background: rgba(0,0,0,0.18);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: -35px;
+            position: relative;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+
+        .card-title {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .card-number {
+            display: block;
+            margin-top: 8px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .section {
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+
+        .section h2 {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .section-description {
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        .welcome {
+            text-align: center;
+        }
+
+        .welcome-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            background: #111827;
+            color: #d1d5db;
+            text-align: center;
+            padding: 30px 20px;
+            line-height: 2;
+        }
+
+        .creator {
+            color: white;
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .logo {
+                text-align: center;
+            }
+
+            nav {
+                justify-content: center;
+            }
+
+            nav a {
+                font-size: 13px;
+            }
+
+            .hero {
+                padding: 55px 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                margin-top: 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .button {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-content">
+
+        <div class="logo">
+            🏓 مسابقات پینگ پنگ مدرسه
+        </div>
+
+        <nav>
+            <a href="index.html">خانه</a>
+            <a href="#">مسابقات</a>
+            <a href="#">رده‌بندی</a>
+            <a href="#">ورود مدیر</a>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">
+            🏆 مسابقات لیگ مدرسه
+        </span>
+
+        <h1>
+            مسابقات پینگ پنگ مدرسه
+        </h1>
+
+        <p>
+            سامانه رسمی مسابقات پینگ پنگ مدرسه؛
+            مشاهده مسابقات، جدول رده‌بندی،
+            نتایج و آمار بازیکنان.
+        </p>
+
+        <div class="buttons">
+
+            <a href="#" class="button button-white">
+                مشاهده جدول رده‌بندی
+            </a>
+
+            <a href="#" class="button button-dark">
+                مشاهده مسابقات
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<main>
+
+    <section class="container">
+
+        <div class="stats">
+
+            <div class="card">
+
+                <span class="card-title">
+                    تعداد بازیکنان
+                </span>
+
+                <strong class="card-number">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="card">
+
+                <span class="card-title">
+                    تعداد مسابقات
+                </span>
+
+                <strong class="card-number">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="card">
+
+                <span class="card-title">
+                    نوع مسابقات
+                </span>
+
+                <strong class="card-number">
+                    لیگ
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="section container">
+
+        <div class="card welcome">
+
+            <div class="welcome-icon">
+                🏓
+            </div>
+
+            <h2>
+                به سامانه مسابقات خوش آمدید
+            </h2>
+
+            <p class="section-description">
+                اطلاعات مسابقات، نتایج و جدول رده‌بندی
+                پس از اتصال دیتابیس در این قسمت نمایش داده خواهد شد.
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div>
+        © شایان محمدی
+    </div>
+
+    <div class="creator">
+        Created by SHM89
+    </div>
+
+</footer>
+
+</body>
+</html>
