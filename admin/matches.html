@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>مدیریت مسابقات | مسابقات پینگ پنگ</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Tahoma, Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #1f2937;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 18px 20px;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .badge {
+      background: #2563eb;
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .page-title {
+      margin-bottom: 25px;
+    }
+
+    .page-title h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .page-title p {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+    }
+
+    .card h2 {
+      font-size: 19px;
+      margin-bottom: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      background: white;
+      font-size: 14px;
+      outline: none;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: #2563eb;
+    }
+
+    .button-area {
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      border-radius: 9px;
+      padding: 11px 18px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .add-btn {
+      background: #2563eb;
+      color: white;
+    }
+
+    .save-btn {
+      background: #16a34a;
+      color: white;
+    }
+
+    .cancel-btn {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .matches-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th {
+      background: #f3f4f6;
+      padding: 13px;
+      text-align: right;
+      font-size: 13px;
+    }
+
+    td {
+      padding: 13px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 13px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+
+    .pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .finished {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .result-input {
+      width: 65px;
+      padding: 7px;
+      text-align: center;
+    }
+
+    .delete-btn {
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 7px 11px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+
+    .links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+
+    .link-btn {
+      background: #111827;
+      color: white;
+      text-decoration: none;
+      padding: 11px 16px;
+      border-radius: 9px;
+      font-size: 13px;
+    }
+
+    footer {
+      margin-top: 50px;
+      background: #111827;
+      color: #d1d5db;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    @media (max-width: 700px) {
+
+      .header-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-title h1 {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">🏓 پنل مدیریت مسابقات</div>
+    <div class="badge">مدیریت مسابقات</div>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-title">
+    <h1>مدیریت مسابقات</h1>
+    <p>
+      از این بخش می‌توانید مسابقه ایجاد کنید و نتیجه آن را ثبت کنید.
+    </p>
+  </div>
+
+  <!-- ایجاد مسابقه -->
+  <div class="card">
+
+    <h2>➕
