@@ -1,365 +1,249 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ورود مدیر | پینگ پونگ مدرسه</title>
+    <title>ورود مدیر | مسابقات پینگ پونگ</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
 
     <style>
-
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
+            margin: 0;
             font-family: Tahoma, Arial, sans-serif;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #eef4ff,
-                    #f7f9fc
-                );
-
-            min-height: 100vh;
-
-            color: #172033;
-        }
-
-        .page {
-            min-height: 100vh;
-
-            display: flex;
-
-            flex-direction: column;
+            background: #f4f7fb;
+            color: #222;
         }
 
         header {
-            background: white;
-
-            border-bottom:
-                1px solid #e5e7eb;
-
-            padding: 18px 20px;
+            background: #2563eb;
+            color: white;
+            padding: 20px;
+            text-align: center;
         }
 
-        .header-content {
-            max-width: 1100px;
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 25px;
+        }
 
-            margin: auto;
+        header p {
+            margin: 0;
+        }
 
+        .container {
+            min-height: calc(100vh - 150px);
             display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            gap: 20px;
-        }
-
-        .logo {
-            font-size: 20px;
-
-            font-weight: bold;
-        }
-
-        .home-link {
-            text-decoration: none;
-
-            color: #1769ff;
-
-            font-weight: bold;
-
-            font-size: 14px;
-        }
-
-        .main {
-            flex: 1;
-
-            display: flex;
-
             justify-content: center;
-
             align-items: center;
-
-            padding: 40px 20px;
+            padding: 25px 15px;
         }
 
         .login-box {
             width: 100%;
-
             max-width: 430px;
-
             background: white;
-
-            border:
-                1px solid #e5e7eb;
-
-            border-radius: 22px;
-
-            padding: 35px;
-
-            box-shadow:
-                0 20px 50px
-                rgba(20, 40, 80, 0.10);
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
         }
 
-        .icon {
-            width: 75px;
-
-            height: 75px;
-
-            margin:
-                0 auto 20px;
-
-            border-radius: 20px;
-
-            background: #eef4ff;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 38px;
-        }
-
-        .title {
+        .login-box h2 {
             text-align: center;
-        }
-
-        .title h1 {
-            font-size: 27px;
-
-            margin-bottom: 8px;
-        }
-
-        .title p {
-            color: #6b7280;
-
-            font-size: 14px;
-
-            line-height: 2;
-
-            margin-bottom: 28px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
+            margin-top: 0;
+            margin-bottom: 25px;
         }
 
         label {
             display: block;
-
-            font-weight: bold;
-
-            font-size: 14px;
-
             margin-bottom: 8px;
+            font-weight: bold;
         }
 
         input {
             width: 100%;
-
-            border:
-                1px solid #dfe3ea;
-
-            border-radius: 11px;
-
             padding: 13px;
-
-            font-family: inherit;
-
-            font-size: 14px;
-
-            outline: none;
-
-            transition: 0.2s;
-        }
-
-        input:focus {
-            border-color: #1769ff;
-
-            box-shadow:
-                0 0 0 3px
-                rgba(23,105,255,0.10);
-        }
-
-        .password-row {
-            position: relative;
-        }
-
-        .show-password {
-            position: absolute;
-
-            left: 10px;
-
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            border: none;
-
-            background: transparent;
-
-            cursor: pointer;
-
+            margin-bottom: 18px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
             font-size: 16px;
+            direction: ltr;
         }
 
-        .login-button {
+        button {
             width: 100%;
-
+            padding: 13px;
             border: none;
-
-            border-radius: 11px;
-
-            padding: 14px;
-
-            background: #1769ff;
-
+            border-radius: 10px;
+            background: #2563eb;
             color: white;
-
-            font-family: inherit;
-
-            font-size: 15px;
-
-            font-weight: bold;
-
+            font-size: 17px;
             cursor: pointer;
-
-            margin-top: 5px;
-
-            transition: 0.2s;
         }
 
-        .login-button:hover {
-            background: #0d4dcc;
-        }
-
-        .login-button:disabled {
-            opacity: 0.7;
-
-            cursor: not-allowed;
+        button:hover {
+            background: #1d4ed8;
         }
 
         .message {
             display: none;
-
-            margin-top: 15px;
-
+            margin-top: 18px;
             padding: 12px;
-
             border-radius: 10px;
-
-            background: #fff4e5;
-
-            color: #9a5b00;
-
-            font-size: 13px;
-
-            line-height: 1.8;
+            background: #fee2e2;
+            color: #991b1b;
+            text-align: center;
         }
 
         .back {
             display: block;
-
             text-align: center;
-
-            margin-top: 22px;
-
+            margin-top: 20px;
+            color: #2563eb;
             text-decoration: none;
-
-            color: #1769ff;
-
-            font-size: 13px;
-        }
-
-        .security {
-            margin-top: 25px;
-
-            padding-top: 20px;
-
-            border-top:
-                1px solid #e5e7eb;
-
-            color: #6b7280;
-
-            font-size: 12px;
-
-            text-align: center;
-
-            line-height: 1.9;
         }
 
         footer {
-            background: #111827;
-
-            color: #d1d5db;
-
             text-align: center;
-
-            padding: 25px 20px;
-
-            line-height: 2;
-
-            font-size: 13px;
-        }
-
-        .creator {
-            color: white;
-
-            font-weight: bold;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
         }
 
         @media (max-width: 500px) {
-
             .login-box {
-                padding: 25px 20px;
+                padding: 22px;
             }
-
-            .title h1 {
-                font-size: 23px;
-            }
-
-            .header-content {
-                justify-content: center;
-            }
-
-            .home-link {
-                display: none;
-            }
-
         }
-
     </style>
-
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase.js"></script>
-
 </head>
 
-
-    <script>
-alert("LOGIN TEST");
-    </script>
 <body>
 
+<header>
+    <h1>مسابقات پینگ پونگ مدرسه</h1>
+    <p>ورود به پنل مدیریت</p>
+</header>
 
-<div class="page">
+<div class="container">
+
+    <div class="login-box">
+
+        <h2>🔐 ورود مدیر</h2>
+
+        <form id="loginForm">
+
+            <label for="email">ایمیل</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="example@email.com"
+                required
+            >
+
+            <label for="password">رمز عبور</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="رمز عبور"
+                required
+            >
+
+            <button type="submit" id="loginButton">
+                ورود به پنل مدیریت
+            </button>
+
+        </form>
+
+        <div id="message" class="message"></div>
+
+        <a href="index.html" class="back">
+            ← بازگشت به صفحه اصلی
+        </a>
+
+    </div>
+
+</div>
+
+<footer>
+    © شایان محمدی
+    <br>
+    Created by SHM89
+</footer>
 
 
-    <header>
+<script>
 
-        <div class="header-content">
+document.addEventListener("DOMContentLoaded", function () {
 
-            <div class="logo">
-                🏓 مسابقات پینگ پونگ
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+    const button = document.getElementById("loginButton");
+
+    form.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        message.style.display = "none";
+        button.disabled = true;
+        button.textContent = "در حال ورود...";
+
+        if (!window.supabaseClient) {
+
+            message.style.display = "block";
+            message.textContent =
+                "خطا: اتصال به Supabase برقرار نشده است.";
+
+            button.disabled = false;
+            button.textContent = "ورود به پنل مدیریت";
+
+            return;
+        }
+
+        try {
+
+            const { data, error } =
+                await window.supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+            if (error) {
+                throw error;
+            }
+
+            if (!data.session) {
+                throw new Error("ورود انجام نشد. Session دریافت نشد.");
+            }
+
+            window.location.href = "admin/index.html";
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.style.display = "block";
+            message.textContent =
+                "خطا در ورود: " + error.message;
+
+            button.disabled = false;
+            button.textContent = "ورود به پنل مدیریت";
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
