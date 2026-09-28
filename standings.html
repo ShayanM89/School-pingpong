@@ -135,6 +135,24 @@
             line-height: 2;
         }
 
+        .status-message {
+            margin-top: 15px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            background: #f8faff;
+            color: #4b5563;
+            display: none;
+        }
+
+        .status-message.show {
+            display: block;
+        }
+
+        .status-message.error {
+            background: #fff1f2;
+            color: #be123c;
+        }
+
         .table-container {
             background: white;
 
@@ -318,8 +336,10 @@
         }
 
     </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+
 </head>
 
 
@@ -352,7 +372,7 @@
                 رده‌بندی
             </a>
 
-            <a href="#">
+            <a href="login.html">
                 ورود مدیر
             </a>
 
@@ -392,11 +412,15 @@
         </h2>
 
         <p>
-            رتبه بازیکنان بر اساس تعداد برد و
-            امتیاز کسب‌شده محاسبه خواهد شد.
-            پس از اتصال دیتابیس، این جدول به صورت
-            خودکار به‌روزرسانی می‌شود.
+            جدول بر اساس نتایج واقعی مسابقات محاسبه می‌شود.
+            هر برد ۳ امتیاز دارد و هر باخت ۰ امتیاز.
+            فقط مسابقات پایان‌یافته در محاسبه جدول لحاظ می‌شوند.
         </p>
+
+        <div
+            id="statusMessage"
+            class="status-message"
+        ></div>
 
     </div>
 
@@ -443,152 +467,18 @@
             </thead>
 
 
-            <tbody>
-
-
-                <!--
-                    اطلاعات نمونه
-
-                    بعداً این قسمت
-                    به صورت خودکار
-                    از دیتابیس خوانده می‌شود.
-                -->
-
+            <tbody id="standingsBody">
 
                 <tr>
 
-                    <td class="rank rank-first">
-                        🥇 1
-                    </td>
-
-                    <td class="player">
-                        بازیکن اول
-                    </td>
-
-                    <td>
-                        5
-                    </td>
-
-                    <td class="positive">
-                        4
-                    </td>
-
-                    <td class="negative">
-                        1
-                    </td>
-
-                    <td>
-                        80٪
-                    </td>
-
-                    <td class="points">
-                        12
+                    <td
+                        colspan="7"
+                        class="empty"
+                    >
+                        در حال دریافت جدول از دیتابیس...
                     </td>
 
                 </tr>
-
-
-
-                <tr>
-
-                    <td class="rank rank-second">
-                        🥈 2
-                    </td>
-
-                    <td class="player">
-                        بازیکن دوم
-                    </td>
-
-                    <td>
-                        5
-                    </td>
-
-                    <td class="positive">
-                        3
-                    </td>
-
-                    <td class="negative">
-                        2
-                    </td>
-
-                    <td>
-                        60٪
-                    </td>
-
-                    <td class="points">
-                        9
-                    </td>
-
-                </tr>
-
-
-
-                <tr>
-
-                    <td class="rank rank-third">
-                        🥉 3
-                    </td>
-
-                    <td class="player">
-                        بازیکن سوم
-                    </td>
-
-                    <td>
-                        5
-                    </td>
-
-                    <td class="positive">
-                        2
-                    </td>
-
-                    <td class="negative">
-                        3
-                    </td>
-
-                    <td>
-                        40٪
-                    </td>
-
-                    <td class="points">
-                        6
-                    </td>
-
-                </tr>
-
-
-
-                <tr>
-
-                    <td class="rank">
-                        4
-                    </td>
-
-                    <td class="player">
-                        بازیکن چهارم
-                    </td>
-
-                    <td>
-                        5
-                    </td>
-
-                    <td class="positive">
-                        1
-                    </td>
-
-                    <td class="negative">
-                        4
-                    </td>
-
-                    <td>
-                        20٪
-                    </td>
-
-                    <td class="points">
-                        3
-                    </td>
-
-                </tr>
-
 
             </tbody>
 
@@ -658,6 +548,429 @@
     </div>
 
 </footer>
+
+
+
+<script>
+
+    const client = window.supabaseClient;
+
+    const standingsBody =
+        document.getElementById("standingsBody");
+
+    const statusMessage =
+        document.getElementById("statusMessage");
+
+
+    function showStatus(message, isError = false) {
+
+        statusMessage.textContent = message;
+
+        statusMessage.classList.add("show");
+
+        if (isError) {
+
+            statusMessage.classList.add("error");
+
+        } else {
+
+            statusMessage.classList.remove("error");
+
+        }
+
+    }
+
+
+    function hideStatus() {
+
+        statusMessage.classList.remove("show");
+
+    }
+
+
+    async function loadStandings() {
+
+        try {
+
+            hideStatus();
+
+
+            /*
+             * دریافت بازیکنان فعال
+             */
+
+            const {
+                data: players,
+                error: playersError
+            } = await client
+                .from("players")
+                .select("id, name, is_active")
+                .eq("is_active", true)
+                .order("created_at", {
+                    ascending: true
+                });
+
+
+            if (playersError) {
+
+                throw playersError;
+
+            }
+
+
+            /*
+             * دریافت تمام مسابقات
+             *
+             * مسابقات قدیمی هم خوانده می‌شوند
+             * و فقط finished در جدول حساب می‌شوند.
+             */
+
+            const {
+                data: matches,
+                error: matchesError
+            } = await client
+                .from("matches")
+                .select(`
+                    id,
+                    player1_id,
+                    player2_id,
+                    player1_score,
+                    player2_score,
+                    status
+                `);
+
+
+            if (matchesError) {
+
+                throw matchesError;
+
+            }
+
+
+            /*
+             * ساخت جدول آماری برای بازیکنان فعال
+             */
+
+            const stats = {};
+
+
+            players.forEach(player => {
+
+                stats[player.id] = {
+
+                    id: player.id,
+
+                    name: player.name,
+
+                    games: 0,
+
+                    wins: 0,
+
+                    losses: 0,
+
+                    points: 0
+
+                };
+
+            });
+
+
+            /*
+             * محاسبه نتایج
+             */
+
+            matches.forEach(match => {
+
+                if (match.status !== "finished") {
+
+                    return;
+
+                }
+
+
+                const player1 =
+                    stats[match.player1_id];
+
+                const player2 =
+                    stats[match.player2_id];
+
+
+                /*
+                 * اگر بازیکنی دیگر فعال نیست،
+                 * نتیجه تاریخی او همچنان در دیتابیس باقی است،
+                 * اما برای جدول بازیکنان فعال نمایش داده نمی‌شود.
+                 */
+
+                if (!player1 || !player2) {
+
+                    return;
+
+                }
+
+
+                const score1 =
+                    Number(match.player1_score);
+
+                const score2 =
+                    Number(match.player2_score);
+
+
+                if (
+                    !Number.isFinite(score1) ||
+                    !Number.isFinite(score2)
+                ) {
+
+                    return;
+
+                }
+
+
+                player1.games++;
+                player2.games++;
+
+
+                if (score1 > score2) {
+
+                    player1.wins++;
+                    player1.points += 3;
+
+                    player2.losses++;
+
+                }
+
+
+                else if (score2 > score1) {
+
+                    player2.wins++;
+                    player2.points += 3;
+
+                    player1.losses++;
+
+                }
+
+            });
+
+
+            /*
+             * تبدیل اطلاعات به آرایه
+             */
+
+            const standings =
+                Object.values(stats);
+
+
+            /*
+             * مرتب‌سازی:
+             *
+             * 1. امتیاز بیشتر
+             * 2. برد بیشتر
+             * 3. بازی کمتر
+             *
+             * در صورت برابر بودن همه موارد،
+             * ترتیب ایجاد بازیکن حفظ می‌شود.
+             */
+
+            standings.sort((a, b) => {
+
+                if (b.points !== a.points) {
+
+                    return b.points - a.points;
+
+                }
+
+
+                if (b.wins !== a.wins) {
+
+                    return b.wins - a.wins;
+
+                }
+
+
+                if (a.games !== b.games) {
+
+                    return a.games - b.games;
+
+                }
+
+
+                return 0;
+
+            });
+
+
+            /*
+             * اگر هیچ بازیکنی وجود ندارد
+             */
+
+            if (standings.length === 0) {
+
+                standingsBody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="7"
+                            class="empty"
+                        >
+                            هنوز بازیکنی ثبت نشده است.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            /*
+             * ساخت HTML جدول
+             */
+
+            standingsBody.innerHTML =
+                standings.map((player, index) => {
+
+
+                    const rank =
+                        index + 1;
+
+
+                    const winPercent =
+                        player.games > 0
+                            ? Math.round(
+                                (player.wins / player.games) * 100
+                              )
+                            : 0;
+
+
+                    let rankClass = "";
+
+                    let rankText =
+                        String(rank);
+
+
+                    if (rank === 1) {
+
+                        rankClass = "rank-first";
+
+                        rankText = "🥇 1";
+
+                    }
+
+                    else if (rank === 2) {
+
+                        rankClass = "rank-second";
+
+                        rankText = "🥈 2";
+
+                    }
+
+                    else if (rank === 3) {
+
+                        rankClass = "rank-third";
+
+                        rankText = "🥉 3";
+
+                    }
+
+
+                    return `
+
+                        <tr>
+
+                            <td
+                                class="rank ${rankClass}"
+                            >
+                                ${rankText}
+                            </td>
+
+                            <td class="player">
+                                ${escapeHtml(player.name)}
+                            </td>
+
+                            <td>
+                                ${player.games}
+                            </td>
+
+                            <td class="positive">
+                                ${player.wins}
+                            </td>
+
+                            <td class="negative">
+                                ${player.losses}
+                            </td>
+
+                            <td>
+                                ${winPercent}٪
+                            </td>
+
+                            <td class="points">
+                                ${player.points}
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }).join("");
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Standings error:",
+                error
+            );
+
+
+            standingsBody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="empty"
+                    >
+                        دریافت جدول با خطا مواجه شد.
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            showStatus(
+                "خطا در ارتباط با دیتابیس. لطفاً اتصال Supabase و دسترسی جدول‌ها را بررسی کنید.",
+                true
+            );
+
+        }
+
+    }
+
+
+    /*
+     * جلوگیری از ورود HTML خطرناک
+     */
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /*
+     * اجرای اولیه
+     */
+
+    loadStandings();
+
+</script>
 
 
 </body>
