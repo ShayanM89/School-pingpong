@@ -21,6 +21,7 @@
             font-family: Tahoma, Arial, sans-serif;
             background: #f4f7fb;
             color: #172033;
+            min-height: 100vh;
         }
 
         header {
@@ -54,6 +55,7 @@
             color: #4b5563;
             padding: 8px 12px;
             border-radius: 8px;
+            transition: 0.2s;
         }
 
         nav a:hover {
@@ -86,6 +88,7 @@
         .page-header p {
             font-size: 17px;
             opacity: 0.9;
+            line-height: 1.8;
         }
 
         .container {
@@ -136,6 +139,7 @@
             background: #f8faff;
             color: #4b5563;
             font-size: 14px;
+            font-weight: bold;
         }
 
         th,
@@ -157,6 +161,8 @@
             font-size: 18px;
             font-weight: bold;
             color: #1769ff;
+            text-align: center;
+            direction: ltr;
         }
 
         .status {
@@ -206,8 +212,31 @@
             padding: 18px;
             border-radius: 12px;
             margin-bottom: 20px;
-            line-height: 1.8;
+            line-height: 1.9;
             display: none;
+            word-break: break-word;
+        }
+
+        .refresh-box {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .refresh-button {
+            border: none;
+            background: #1769ff;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .refresh-button:hover {
+            background: #0d57dc;
         }
 
         footer {
@@ -245,11 +274,28 @@
                 font-size: 32px;
             }
 
+            .content {
+                padding-top: 30px;
+                padding-bottom: 50px;
+            }
+
+            .info-card {
+                padding: 20px;
+            }
+
+            th,
+            td {
+                padding: 14px 12px;
+            }
+
         }
 
     </style>
 
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- تنظیمات اتصال به Supabase -->
     <script src="supabase.js"></script>
 
 </head>
@@ -300,7 +346,7 @@
         </h1>
 
         <p>
-            مشاهده برنامه و نتایج واقعی مسابقات لیگ
+            مشاهده برنامه و نتایج واقعی مسابقات لیگ مدرسه
         </p>
 
     </div>
@@ -319,13 +365,27 @@
 
         <p>
             تمام مسابقات ثبت‌شده در سیستم، شامل بازی‌های برنامه‌ریزی‌شده،
-            نتایج بازی‌های انجام‌شده و مسابقات لغوشده، در این صفحه نمایش داده می‌شوند.
+            نتایج بازی‌های انجام‌شده و مسابقات لغوشده،
+            مستقیماً از پایگاه داده نمایش داده می‌شوند.
         </p>
 
     </div>
 
 
     <div id="errorBox" class="error-box"></div>
+
+
+    <div class="refresh-box">
+
+        <button
+            type="button"
+            class="refresh-button"
+            onclick="displayMatches()"
+        >
+            🔄 بروزرسانی مسابقات
+        </button>
+
+    </div>
 
 
     <div class="table-container">
@@ -397,275 +457,240 @@
 <script>
 
 
-    const supabaseClient = window.supabaseClient;
+/* =========================================================
+   بررسی اتصال Supabase
+========================================================= */
+
+const supabaseClient = window.supabaseClient;
 
 
-    /*
-        تبدیل متن به HTML امن
-    */
-    function escapeHTML(value) {
+/* =========================================================
+   تبدیل متن به HTML امن
+========================================================= */
 
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+function escapeHTML(value) {
 
-    }
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
 
 
-    /*
-        گرفتن وضعیت مسابقه
-    */
-    function getStatusText(status) {
+/* =========================================================
+   متن وضعیت مسابقه
+========================================================= */
 
-        if (status === "finished") {
+function getStatusText(status) {
+
+    switch (status) {
+
+        case "finished":
             return "پایان یافته";
-        }
 
-        if (status === "scheduled") {
+        case "scheduled":
             return "برگزار نشده";
-        }
 
-        if (status === "cancelled") {
+        case "cancelled":
             return "لغو شده";
-        }
 
-        return "نامشخص";
+        default:
+            return "نامشخص";
 
     }
 
+}
 
-    /*
-        کلاس وضعیت
-    */
-    function getStatusClass(status) {
 
-        if (status === "finished") {
+/* =========================================================
+   کلاس وضعیت مسابقه
+========================================================= */
+
+function getStatusClass(status) {
+
+    switch (status) {
+
+        case "finished":
             return "finished";
-        }
 
-        if (status === "cancelled") {
+        case "cancelled":
             return "cancelled";
-        }
 
-        return "waiting";
+        default:
+            return "waiting";
+
+    }
+
+}
+
+
+/* =========================================================
+   دریافت بازیکنان
+========================================================= */
+
+async function loadPlayers() {
+
+    if (!supabaseClient) {
+
+        throw new Error(
+            "اتصال Supabase برقرار نشده است. فایل supabase.js را بررسی کنید."
+        );
 
     }
 
 
-    /*
-        دریافت بازیکنان
-    */
-    async function loadPlayers() {
+    const { data, error } = await supabaseClient
 
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .from("players")
-            .select("id, name")
-            .order("name", {
-                ascending: true
-            });
+        .from("players")
+
+        .select("id, name")
+
+        .order("id", {
+            ascending: true
+        });
 
 
-        if (error) {
+    if (error) {
 
-            throw error;
-
-        }
-
-
-        return data || [];
+        throw error;
 
     }
 
 
-    /*
-        دریافت مسابقات
-    */
-    async function loadMatches() {
+    return data || [];
 
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .from("matches")
-            .select(`
-                id,
-                player1_id,
-                player2_id,
-                player1_score,
-                player2_score,
-                status,
-                created_at,
-                played_at
-            `)
-            .order("created_at", {
-                ascending: true
-            });
+}
 
 
-        if (error) {
+/* =========================================================
+   دریافت مسابقات
+========================================================= */
 
-            throw error;
+async function loadMatches() {
 
-        }
+    if (!supabaseClient) {
 
-
-        return data || [];
+        throw new Error(
+            "اتصال Supabase برقرار نشده است. فایل supabase.js را بررسی کنید."
+        );
 
     }
 
 
-    /*
-        نمایش مسابقات
-    */
-    async function displayMatches() {
+    const { data, error } = await supabaseClient
 
-        const body =
-            document.getElementById("matchesBody");
+        .from("matches")
 
-        const errorBox =
-            document.getElementById("errorBox");
+        .select(`
+            id,
+            player1_id,
+            player2_id,
+            player1_score,
+            player2_score,
+            status,
+            created_at,
+            played_at
+        `)
 
-
-        try {
-
-            errorBox.style.display = "none";
-
-
-            const [
-                players,
-                matches
-            ] = await Promise.all([
-
-                loadPlayers(),
-
-                loadMatches()
-
-            ]);
+        .order("id", {
+            ascending: true
+        });
 
 
-            /*
-                ساخت Map برای پیدا کردن نام بازیکن
-                از روی ID
-            */
-            const playerMap = new Map();
+    if (error) {
+
+        throw error;
+
+    }
 
 
-            players.forEach(player => {
+    return data || [];
 
-                playerMap.set(
-                    Number(player.id),
-                    player.name
-                );
-
-            });
+}
 
 
-            /*
-                اگر هیچ مسابقه‌ای وجود نداشته باشد
-            */
-            if (matches.length === 0) {
+/* =========================================================
+   نمایش مسابقات
+========================================================= */
 
-                body.innerHTML = `
+async function displayMatches() {
 
-                    <tr>
+    const body =
+        document.getElementById("matchesBody");
 
-                        <td colspan="5" class="empty">
-
-                            <div class="empty-icon">
-                                🏓
-                            </div>
-
-                            هنوز هیچ مسابقه‌ای در سیستم ثبت نشده است.
-
-                        </td>
-
-                    </tr>
-
-                `;
-
-                return;
-
-            }
+    const errorBox =
+        document.getElementById("errorBox");
 
 
-            body.innerHTML = "";
+    /* نمایش حالت بارگذاری */
+
+    body.innerHTML = `
+
+        <tr>
+
+            <td colspan="5" class="loading">
+
+                ⏳ در حال دریافت مسابقات از پایگاه داده...
+
+            </td>
+
+        </tr>
+
+    `;
 
 
-            matches.forEach((match, index) => {
+    errorBox.style.display = "none";
 
 
-                const player1Name =
-                    playerMap.get(Number(match.player1_id))
-                    || "بازیکن غیرفعال";
+    try {
 
 
-                const player2Name =
-                    playerMap.get(Number(match.player2_id))
-                    || "بازیکن غیرفعال";
+        /* ================================================
+           دریافت همزمان بازیکنان و مسابقات
+        ================================================= */
+
+        const [
+            players,
+            matches
+        ] = await Promise.all([
+
+            loadPlayers(),
+
+            loadMatches()
+
+        ]);
 
 
-                let result = "-";
+        console.log("Players:", players);
+
+        console.log("Matches:", matches);
 
 
-                if (match.status === "finished") {
+        /* ================================================
+           ساخت نقشه بازیکنان
+        ================================================= */
 
-                    result = `
-                        ${escapeHTML(match.player1_score)}
-                        -
-                        ${escapeHTML(match.player2_score)}
-                    `;
-
-                }
+        const playerMap = new Map();
 
 
-                const row =
-                    document.createElement("tr");
+        players.forEach(player => {
+
+            playerMap.set(
+                String(player.id),
+                player.name
+            );
+
+        });
 
 
-                row.innerHTML = `
+        /* ================================================
+           اگر مسابقه‌ای وجود ندارد
+        ================================================= */
 
-                    <td>
-                        ${index + 1}
-                    </td>
-
-                    <td class="player">
-                        ${escapeHTML(player1Name)}
-                    </td>
-
-                    <td class="score">
-                        ${result}
-                    </td>
-
-                    <td class="player">
-                        ${escapeHTML(player2Name)}
-                    </td>
-
-                    <td>
-
-                        <span class="status ${getStatusClass(match.status)}">
-                            ${getStatusText(match.status)}
-                        </span>
-
-                    </td>
-
-                `;
-
-
-                body.appendChild(row);
-
-            });
-
-
-        } catch (error) {
-
-            console.error(error);
-
+        if (!matches || matches.length === 0) {
 
             body.innerHTML = `
 
@@ -673,7 +698,11 @@
 
                     <td colspan="5" class="empty">
 
-                        خطا در دریافت مسابقات.
+                        <div class="empty-icon">
+                            🏓
+                        </div>
+
+                        هنوز هیچ مسابقه‌ای در سیستم ثبت نشده است.
 
                     </td>
 
@@ -681,21 +710,166 @@
 
             `;
 
-
-            errorBox.textContent =
-                "خطا در اتصال به دیتابیس: " + error.message;
-
-            errorBox.style.display = "block";
+            return;
 
         }
 
+
+        /* ================================================
+           پاک کردن جدول
+        ================================================= */
+
+        body.innerHTML = "";
+
+
+        /* ================================================
+           ساخت ردیف مسابقات
+        ================================================= */
+
+        matches.forEach((match, index) => {
+
+
+            const player1Name =
+                playerMap.get(String(match.player1_id))
+                || "بازیکن غیرفعال";
+
+
+            const player2Name =
+                playerMap.get(String(match.player2_id))
+                || "بازیکن غیرفعال";
+
+
+            /* نتیجه */
+
+            let result = "-";
+
+
+            if (
+                match.status === "finished"
+                &&
+                match.player1_score !== null
+                &&
+                match.player2_score !== null
+            ) {
+
+                result = `
+                    ${escapeHTML(match.player1_score)}
+                    -
+                    ${escapeHTML(match.player2_score)}
+                `;
+
+            }
+
+
+            /* ایجاد ردیف */
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td class="player">
+                    ${escapeHTML(player1Name)}
+                </td>
+
+                <td class="score">
+                    ${result}
+                </td>
+
+                <td class="player">
+                    ${escapeHTML(player2Name)}
+                </td>
+
+                <td>
+
+                    <span class="status ${getStatusClass(match.status)}">
+
+                        ${getStatusText(match.status)}
+
+                    </span>
+
+                </td>
+
+            `;
+
+
+            body.appendChild(row);
+
+        });
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Supabase error:",
+            error
+        );
+
+
+        body.innerHTML = `
+
+            <tr>
+
+                <td colspan="5" class="empty">
+
+                    <div class="empty-icon">
+                        ⚠️
+                    </div>
+
+                    خطا در دریافت اطلاعات مسابقات.
+
+                </td>
+
+            </tr>
+
+        `;
+
+
+        errorBox.innerHTML = `
+
+            <strong>
+                خطا در اتصال به پایگاه داده
+            </strong>
+
+            <br><br>
+
+            ${escapeHTML(error.message)}
+
+            <br><br>
+
+            اگر این خطا را مشاهده می‌کنید،
+            فایل <strong>supabase.js</strong> و
+            دسترسی خواندن جدول‌های Supabase را بررسی کنید.
+
+        `;
+
+
+        errorBox.style.display = "block";
+
     }
 
+}
 
-    /*
-        اجرای صفحه
-    */
-    displayMatches();
+
+/* =========================================================
+   اجرای اولیه صفحه
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        displayMatches();
+
+    }
+);
+
 
 </script>
 
