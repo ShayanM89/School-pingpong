@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>مدیریت مسابقات | مسابقات پینگ پونگ</title>
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>مدیریت مسابقات | پینگ پونگ مدرسه</title>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -29,9 +36,11 @@
     .header-inner {
       max-width: 1100px;
       margin: auto;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       gap: 15px;
     }
 
@@ -73,7 +82,9 @@
       border-radius: 16px;
       padding: 22px;
       margin-bottom: 25px;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+
+      box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.06);
     }
 
     .card h2 {
@@ -84,10 +95,14 @@
     .info-box {
       background: #eff6ff;
       color: #1e40af;
+
       border-radius: 10px;
+
       padding: 13px;
+
       font-size: 13px;
       line-height: 1.9;
+
       margin-bottom: 18px;
     }
 
@@ -100,8 +115,11 @@
     button {
       border: none;
       border-radius: 9px;
+
       padding: 11px 18px;
+
       cursor: pointer;
+
       font-size: 14px;
     }
 
@@ -128,6 +146,21 @@
     .danger-btn {
       background: #fee2e2;
       color: #dc2626;
+
+      padding: 8px 12px;
+    }
+
+    .restore-btn {
+      background: #dbeafe;
+      color: #1d4ed8;
+
+      padding: 8px 12px;
+    }
+
+    .edit-btn {
+      background: #fef3c7;
+      color: #92400e;
+
       padding: 8px 12px;
     }
 
@@ -137,29 +170,42 @@
 
     table {
       width: 100%;
+
       border-collapse: collapse;
-      min-width: 850px;
+
+      min-width: 900px;
     }
 
     th {
       background: #f3f4f6;
+
       padding: 13px;
+
       text-align: right;
+
       font-size: 13px;
     }
 
     td {
       padding: 13px;
-      border-bottom: 1px solid #e5e7eb;
+
+      border-bottom:
+        1px solid #e5e7eb;
+
       font-size: 13px;
+
       vertical-align: middle;
     }
 
     .status {
       display: inline-block;
+
       padding: 5px 9px;
+
       border-radius: 20px;
+
       font-size: 12px;
+
       white-space: nowrap;
     }
 
@@ -180,16 +226,23 @@
 
     .result-input {
       width: 60px;
+
       padding: 8px;
+
       text-align: center;
+
       border: 1px solid #d1d5db;
+
       border-radius: 7px;
+
       font-size: 14px;
     }
 
     .result-area {
       display: flex;
+
       align-items: center;
+
       gap: 7px;
     }
 
@@ -199,16 +252,23 @@
 
     .empty {
       text-align: center;
+
       padding: 30px;
+
       color: #6b7280;
     }
 
     .message {
       display: none;
+
       padding: 13px;
+
       border-radius: 10px;
+
       margin-bottom: 20px;
+
       font-size: 13px;
+
       line-height: 1.8;
     }
 
@@ -233,17 +293,25 @@
 
     .links {
       display: flex;
+
       gap: 10px;
+
       flex-wrap: wrap;
+
       margin-top: 25px;
     }
 
     .link-btn {
       background: #111827;
+
       color: white;
+
       text-decoration: none;
+
       padding: 11px 16px;
+
       border-radius: 9px;
+
       font-size: 13px;
     }
 
@@ -254,17 +322,25 @@
 
     footer {
       margin-top: 50px;
+
       background: #111827;
+
       color: #d1d5db;
+
       text-align: center;
+
       padding: 25px 15px;
+
       font-size: 13px;
+
       line-height: 2;
     }
 
     .loading {
       text-align: center;
+
       padding: 25px;
+
       color: #6b7280;
     }
 
@@ -274,7 +350,28 @@
 
     .date-text {
       color: #6b7280;
+
       font-size: 12px;
+    }
+
+    .deleted-player {
+      color: #991b1b;
+
+      font-size: 12px;
+    }
+
+    .score-display {
+      font-weight: bold;
+
+      font-size: 16px;
+    }
+
+    .actions {
+      display: flex;
+
+      gap: 7px;
+
+      flex-wrap: wrap;
     }
 
     @media (max-width: 700px) {
@@ -299,47 +396,94 @@
       .button-area button {
         width: 100%;
       }
+
     }
+
   </style>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
   <script src="../supabase.js"></script>
+
 </head>
+
 
 <body>
 
+
 <header>
+
   <div class="header-inner">
-    <div class="logo">🏓 پنل مدیریت مسابقات</div>
-    <div class="badge">مدیریت مسابقات</div>
+
+    <div class="logo">
+      🏓 پنل مدیریت مسابقات
+    </div>
+
+    <div class="badge">
+      مدیریت مسابقات
+    </div>
+
   </div>
+
 </header>
+
+
 
 <main>
 
+
   <div class="page-title">
-    <h1>مدیریت مسابقات</h1>
+
+    <h1>
+      مدیریت مسابقات
+    </h1>
+
     <p>
       برنامه مسابقات و نتایج بازی‌ها را از این بخش مدیریت کنید.
     </p>
+
   </div>
 
-  <div id="message" class="message"></div>
 
-  <!-- برنامه ریزی -->
+
+  <div
+    id="message"
+    class="message"
+  ></div>
+
+
+
+  <!-- برنامه ریزی مسابقات -->
+
   <div class="card">
 
-    <h2>📅 برنامه‌ریزی مسابقات</h2>
+    <h2>
+      📅 برنامه‌ریزی مسابقات
+    </h2>
 
     <div class="info-box">
-      با زدن دکمه زیر، سیستم فقط بازی‌هایی را که هنوز در دیتابیس وجود ندارند ایجاد می‌کند.
+
+      با زدن دکمه زیر، سیستم فقط بازی‌هایی را که هنوز
+      در دیتابیس وجود ندارند ایجاد می‌کند.
+
       <br>
+
       مسابقات قبلی و نتایج ثبت‌شده هیچ تغییری نخواهند کرد.
+
       <br>
-      اگر بازیکن جدیدی اضافه شده باشد، فقط بازی‌های لازم برای همان بازیکن ساخته می‌شود.
+
+      اگر بازیکن جدیدی اضافه شده باشد،
+      فقط بازی‌های لازم برای همان بازیکن ساخته می‌شود.
+
     </div>
 
+
     <div class="button-area">
+
       <button
         type="button"
         class="add-btn"
@@ -349,6 +493,7 @@
         ➕ ایجاد بازی‌های جدید
       </button>
 
+
       <button
         type="button"
         class="cancel-btn"
@@ -356,37 +501,74 @@
       >
         🔄 بروزرسانی
       </button>
+
     </div>
 
   </div>
 
-  <!-- لیست مسابقات -->
+
+
+  <!-- فهرست مسابقات -->
+
   <div class="card">
 
-    <h2>🏓 فهرست مسابقات</h2>
+    <h2>
+      🏓 فهرست مسابقات
+    </h2>
+
 
     <div class="matches-wrapper">
 
       <table>
 
         <thead>
+
           <tr>
-            <th>#</th>
-            <th>بازیکن اول</th>
-            <th>بازیکن دوم</th>
-            <th>نتیجه</th>
-            <th>وضعیت</th>
-            <th>تاریخ ثبت نتیجه</th>
-            <th>عملیات</th>
+
+            <th>
+              #
+            </th>
+
+            <th>
+              بازیکن اول
+            </th>
+
+            <th>
+              بازیکن دوم
+            </th>
+
+            <th>
+              نتیجه
+            </th>
+
+            <th>
+              وضعیت
+            </th>
+
+            <th>
+              تاریخ ثبت نتیجه
+            </th>
+
+            <th>
+              عملیات
+            </th>
+
           </tr>
+
         </thead>
+
 
         <tbody id="matchesTableBody">
 
           <tr>
-            <td colspan="7" class="loading">
+
+            <td
+              colspan="7"
+              class="loading"
+            >
               در حال دریافت مسابقات...
             </td>
+
           </tr>
 
         </tbody>
@@ -397,23 +579,43 @@
 
   </div>
 
+
+
+  <!-- لینک ها -->
+
   <div class="links">
 
-    <a href="index.html" class="link-btn">
+    <a
+      href="index.html"
+      class="link-btn"
+    >
       🏠 داشبورد
     </a>
 
-    <a href="players.html" class="link-btn">
+
+    <a
+      href="players.html"
+      class="link-btn"
+    >
       👥 مدیریت بازیکنان
     </a>
 
-    <a href="../matches.html" class="link-btn">
+
+    <a
+      href="../matches.html"
+      class="link-btn"
+    >
       🌐 صفحه مسابقات
     </a>
 
-    <a href="../standings.html" class="link-btn">
+
+    <a
+      href="../standings.html"
+      class="link-btn"
+    >
       🏆 جدول رده‌بندی
     </a>
+
 
     <button
       type="button"
@@ -425,105 +627,185 @@
 
   </div>
 
+
 </main>
+
+
 
 <footer>
 
-  <div>© شایان محمدی</div>
-  <div>Created by SHM89</div>
+  <div>
+    © شایان محمدی
+  </div>
+
+  <div>
+    Created by SHM89
+  </div>
 
 </footer>
 
+
+
 <script>
 
-  const supabaseClient = window.supabaseClient;
 
   /*
-    نمایش پیام
-  */
-  function showMessage(text, type = "info") {
+   * اتصال به Supabase
+   */
 
-    const message = document.getElementById("message");
+  const client = window.supabaseClient;
+
+
+
+  /*
+   * نمایش پیام
+   */
+
+  function showMessage(
+    text,
+    type = "info"
+  ) {
+
+    const message =
+      document.getElementById("message");
 
     message.textContent = text;
 
-    message.className = "message show " + type;
+    message.className =
+      "message show " + type;
 
   }
 
 
+
   /*
-    مخفی کردن پیام
-  */
+   * مخفی کردن پیام
+   */
+
   function hideMessage() {
 
-    const message = document.getElementById("message");
-
-    message.className = "message";
+    const message =
+      document.getElementById("message");
 
     message.textContent = "";
 
+    message.className =
+      "message";
+
   }
 
 
+
   /*
-    بررسی ورود مدیر
-  */
+   * بررسی ورود مدیر
+   */
+
   async function checkAuth() {
 
-    const {
-      data: { session },
-      error
-    } = await supabaseClient.auth.getSession();
+    try {
 
-    if (error) {
+      const {
+        data,
+        error
+      } = await client.auth.getSession();
+
+
+      if (error) {
+
+        console.error(
+          "Auth error:",
+          error
+        );
+
+        window.location.href =
+          "../login.html";
+
+        return false;
+
+      }
+
+
+      if (!data.session) {
+
+        window.location.href =
+          "../login.html";
+
+        return false;
+
+      }
+
+
+      return true;
+
+    }
+
+    catch (error) {
 
       console.error(error);
 
-      window.location.href = "../login.html";
+      window.location.href =
+        "../login.html";
 
       return false;
 
     }
-
-    if (!session) {
-
-      window.location.href = "../login.html";
-
-      return false;
-
-    }
-
-    return true;
 
   }
 
 
+
   /*
-    خروج
-  */
+   * خروج
+   */
+
   async function logout() {
 
-    await supabaseClient.auth.signOut();
+    try {
 
-    window.location.href = "../login.html";
+      await client.auth.signOut();
+
+    }
+
+    finally {
+
+      window.location.href =
+        "../login.html";
+
+    }
 
   }
 
 
+
   /*
-    گرفتن همه بازیکنان فعال
-  */
+   * دریافت بازیکنان فعال
+   */
+
   async function getActivePlayers() {
 
     const {
       data,
       error
-    } = await supabaseClient
+    } = await client
+
       .from("players")
-      .select("id, name, class_name")
-      .eq("is_active", true)
-      .order("name", { ascending: true });
+
+      .select(
+        "id, name, class_name, is_active"
+      )
+
+      .eq(
+        "is_active",
+        true
+      )
+
+      .order(
+        "created_at",
+        {
+          ascending: true
+        }
+      );
+
 
     if (error) {
 
@@ -531,21 +813,26 @@
 
     }
 
+
     return data || [];
 
   }
 
 
+
   /*
-    گرفتن همه مسابقات
-  */
+   * دریافت تمام مسابقات
+   */
+
   async function getAllMatches() {
 
     const {
       data,
       error
-    } = await supabaseClient
+    } = await client
+
       .from("matches")
+
       .select(`
         id,
         player1_id,
@@ -556,7 +843,14 @@
         played_at,
         created_at
       `)
-      .order("created_at", { ascending: true });
+
+      .order(
+        "created_at",
+        {
+          ascending: true
+        }
+      );
+
 
     if (error) {
 
@@ -564,57 +858,78 @@
 
     }
 
+
     return data || [];
 
   }
 
 
+
   /*
-    ساخت کلید یکتا برای یک جفت بازیکن
+   * ساخت کلید برای دو بازیکن
+   *
+   * مثال:
+   *
+   * 1 + 2
+   *
+   * و
+   *
+   * 2 + 1
+   *
+   * هر دو یک بازی محسوب می‌شوند.
+   */
 
-    مهم:
-    ترتیب بازیکنان مهم نیست.
+  function pairKey(
+    player1Id,
+    player2Id
+  ) {
 
-    یعنی:
+    const a =
+      Number(player1Id);
 
-    1 مقابل 2
+    const b =
+      Number(player2Id);
 
-    و
-
-    2 مقابل 1
-
-    یک بازی محسوب می‌شوند.
-  */
-  function pairKey(player1Id, player2Id) {
-
-    const a = Number(player1Id);
-    const b = Number(player2Id);
 
     return a < b
+
       ? `${a}-${b}`
+
       : `${b}-${a}`;
 
   }
 
 
-  /*
-    ایجاد فقط بازی‌های جدید
 
-    این تابع هیچ مسابقه قبلی را حذف یا ویرایش نمی‌کند.
-  */
+  /*
+   * ایجاد مسابقات جدید
+   */
+
   async function createMissingMatches() {
 
-    const button = document.getElementById("createScheduleBtn");
+    const button =
+      document.getElementById(
+        "createScheduleBtn"
+      );
+
 
     try {
 
       button.disabled = true;
 
-      button.textContent = "⏳ در حال بررسی...";
+      button.textContent =
+        "⏳ در حال بررسی...";
 
       hideMessage();
 
-      const players = await getActivePlayers();
+
+      /*
+       * دریافت بازیکنان
+       */
+
+      const players =
+        await getActivePlayers();
+
 
       if (players.length < 2) {
 
@@ -628,47 +943,73 @@
       }
 
 
-      const existingMatches = await getAllMatches();
+      /*
+       * دریافت مسابقات موجود
+       */
 
-      const existingPairs = new Set();
+      const existingMatches =
+        await getAllMatches();
 
-      existingMatches.forEach(match => {
 
-        existingPairs.add(
-          pairKey(
-            match.player1_id,
-            match.player2_id
-          )
-        );
+      const existingPairs =
+        new Set();
 
-      });
+
+      existingMatches.forEach(
+        match => {
+
+          existingPairs.add(
+            pairKey(
+              match.player1_id,
+              match.player2_id
+            )
+          );
+
+        }
+      );
 
 
       const newMatches = [];
 
 
       /*
-        هر بازیکن با هر بازیکن دیگر فقط یک بار بازی می‌کند.
-      */
-      for (let i = 0; i < players.length; i++) {
+       * ساخت تمام زوج‌های ممکن
+       */
 
-        for (let j = i + 1; j < players.length; j++) {
+      for (
+        let i = 0;
+        i < players.length;
+        i++
+      ) {
 
-          const player1 = players[i];
+        for (
+          let j = i + 1;
+          j < players.length;
+          j++
+        ) {
 
-          const player2 = players[j];
+          const player1 =
+            players[i];
 
-          const key = pairKey(
-            player1.id,
-            player2.id
-          );
+          const player2 =
+            players[j];
+
+
+          const key =
+            pairKey(
+              player1.id,
+              player2.id
+            );
 
 
           /*
-            اگر این بازی قبلاً وجود داشته،
-            به هیچ عنوان دوباره ساخته نمی‌شود.
-          */
-          if (existingPairs.has(key)) {
+           * اگر قبلاً ساخته شده،
+           * دست نزن.
+           */
+
+          if (
+            existingPairs.has(key)
+          ) {
 
             continue;
 
@@ -677,17 +1018,23 @@
 
           newMatches.push({
 
-            player1_id: player1.id,
+            player1_id:
+              player1.id,
 
-            player2_id: player2.id,
+            player2_id:
+              player2.id,
 
-            player1_score: null,
+            player1_score:
+              null,
 
-            player2_score: null,
+            player2_score:
+              null,
 
-            status: "scheduled",
+            status:
+              "scheduled",
 
-            played_at: null
+            played_at:
+              null
 
           });
 
@@ -696,10 +1043,16 @@
       }
 
 
-      if (newMatches.length === 0) {
+      /*
+       * هیچ بازی جدیدی لازم نیست.
+       */
+
+      if (
+        newMatches.length === 0
+      ) {
 
         showMessage(
-          "همه بازی‌های لازم از قبل در برنامه وجود دارند. هیچ مسابقه‌ای تغییر نکرد.",
+          "همه بازی‌های لازم از قبل در دیتابیس وجود دارند. هیچ مسابقه‌ای تغییر نکرد.",
           "info"
         );
 
@@ -708,11 +1061,19 @@
       }
 
 
+      /*
+       * ثبت بازی‌های جدید
+       */
+
       const {
         error
-      } = await supabaseClient
+      } = await client
+
         .from("matches")
-        .insert(newMatches);
+
+        .insert(
+          newMatches
+        );
 
 
       if (error) {
@@ -723,87 +1084,124 @@
 
 
       showMessage(
-        `${newMatches.length} بازی جدید با موفقیت ایجاد شد. بازی‌های قبلی دست‌نخورده باقی ماندند.`,
+        `${newMatches.length} بازی جدید با موفقیت در دیتابیس ثبت شد.`,
         "success"
       );
 
 
       await loadMatches();
 
-    } catch (error) {
+    }
 
-      console.error(error);
+    catch (error) {
+
+      console.error(
+        "Create matches error:",
+        error
+      );
+
 
       showMessage(
-        "خطا در ایجاد برنامه مسابقات: " + error.message,
+        "خطا در ایجاد مسابقات: " +
+        error.message,
         "error"
       );
 
-    } finally {
+    }
+
+    finally {
 
       button.disabled = false;
 
-      button.textContent = "➕ ایجاد بازی‌های جدید";
+      button.textContent =
+        "➕ ایجاد بازی‌های جدید";
 
     }
 
   }
 
 
-  /*
-    نام وضعیت
-  */
-  function getStatusText(status) {
 
-    if (status === "scheduled") {
+  /*
+   * وضعیت مسابقه
+   */
+
+  function getStatusText(
+    status
+  ) {
+
+    if (
+      status === "scheduled"
+    ) {
 
       return "برنامه‌ریزی شده";
 
     }
 
-    if (status === "finished") {
+
+    if (
+      status === "finished"
+    ) {
 
       return "تمام شده";
 
     }
 
-    if (status === "cancelled") {
+
+    if (
+      status === "cancelled"
+    ) {
 
       return "لغو شده";
 
     }
+
 
     return status || "-";
 
   }
 
 
-  /*
-    کلاس وضعیت
-  */
-  function getStatusClass(status) {
 
-    if (status === "finished") {
+  /*
+   * کلاس وضعیت
+   */
+
+  function getStatusClass(
+    status
+  ) {
+
+    if (
+      status === "finished"
+    ) {
 
       return "finished";
 
     }
 
-    if (status === "cancelled") {
+
+    if (
+      status === "cancelled"
+    ) {
 
       return "cancelled";
 
     }
+
 
     return "pending";
 
   }
 
 
+
   /*
-    فرمت تاریخ
-  */
-  function formatDate(dateString) {
+   * تبدیل تاریخ
+   */
+
+  function formatDate(
+    dateString
+  ) {
 
     if (!dateString) {
 
@@ -811,37 +1209,77 @@
 
     }
 
-    const date = new Date(dateString);
 
-    if (Number.isNaN(date.getTime())) {
+    const date =
+      new Date(dateString);
+
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
 
       return "-";
 
     }
 
-    return date.toLocaleString("fa-IR");
+
+    return date.toLocaleString(
+      "fa-IR"
+    );
 
   }
 
 
+
   /*
-    ثبت نتیجه
-  */
-  async function saveResult(matchId) {
+   * ثبت نتیجه
+   */
+
+  async function saveResult(
+    matchId
+  ) {
 
     const score1Element =
-      document.getElementById(`score1-${matchId}`);
+      document.getElementById(
+        `score1-${matchId}`
+      );
+
 
     const score2Element =
-      document.getElementById(`score2-${matchId}`);
+      document.getElementById(
+        `score2-${matchId}`
+      );
 
 
-    const score1 = score1Element.value.trim();
+    if (
+      !score1Element ||
+      !score2Element
+    ) {
 
-    const score2 = score2Element.value.trim();
+      showMessage(
+        "فیلدهای نتیجه پیدا نشدند.",
+        "error"
+      );
+
+      return;
+
+    }
 
 
-    if (score1 === "" || score2 === "") {
+    const score1 =
+      score1Element.value.trim();
+
+
+    const score2 =
+      score2Element.value.trim();
+
+
+    if (
+      score1 === "" ||
+      score2 === ""
+    ) {
 
       showMessage(
         "لطفاً امتیاز هر دو بازیکن را وارد کنید.",
@@ -853,9 +1291,12 @@
     }
 
 
-    const number1 = Number(score1);
+    const number1 =
+      Number(score1);
 
-    const number2 = Number(score2);
+
+    const number2 =
+      Number(score2);
 
 
     if (
@@ -875,7 +1316,13 @@
     }
 
 
-    if (number1 === number2) {
+    /*
+     * مساوی مجاز نیست.
+     */
+
+    if (
+      number1 === number2
+    ) {
 
       showMessage(
         "نتیجه مسابقه نمی‌تواند مساوی باشد. برنده باید مشخص باشد.",
@@ -891,20 +1338,30 @@
 
       const {
         error
-      } = await supabaseClient
+      } = await client
+
         .from("matches")
+
         .update({
 
-          player1_score: number1,
+          player1_score:
+            number1,
 
-          player2_score: number2,
+          player2_score:
+            number2,
 
-          status: "finished",
+          status:
+            "finished",
 
-          played_at: new Date().toISOString()
+          played_at:
+            new Date().toISOString()
 
         })
-        .eq("id", matchId);
+
+        .eq(
+          "id",
+          matchId
+        );
 
 
       if (error) {
@@ -915,19 +1372,26 @@
 
 
       showMessage(
-        "نتیجه مسابقه با موفقیت ثبت شد.",
+        "✅ نتیجه مسابقه با موفقیت در دیتابیس ثبت شد.",
         "success"
       );
 
 
       await loadMatches();
 
-    } catch (error) {
+    }
 
-      console.error(error);
+    catch (error) {
+
+      console.error(
+        "Save result error:",
+        error
+      );
+
 
       showMessage(
-        "خطا در ثبت نتیجه: " + error.message,
+        "خطا در ثبت نتیجه: " +
+        error.message,
         "error"
       );
 
@@ -936,19 +1400,21 @@
   }
 
 
+
   /*
-    لغو مسابقه
+   * لغو مسابقه
+   *
+   * مسابقه حذف نمی‌شود.
+   */
 
-    توجه:
-    مسابقه حذف نمی‌شود.
-    فقط وضعیت آن cancelled می‌شود.
-    بنابراین تاریخچه دیتابیس حفظ می‌شود.
-  */
-  async function cancelMatch(matchId) {
+  async function cancelMatch(
+    matchId
+  ) {
 
-    const confirmed = confirm(
-      "آیا مطمئن هستید که می‌خواهید این مسابقه را لغو کنید؟\n\nمسابقه حذف نمی‌شود و فقط به وضعیت «لغو شده» تغییر می‌کند."
-    );
+    const confirmed =
+      confirm(
+        "آیا مطمئن هستید که می‌خواهید این مسابقه را لغو کنید؟\n\nمسابقه حذف نمی‌شود و فقط وضعیت آن «لغو شده» می‌شود."
+      );
 
 
     if (!confirmed) {
@@ -962,14 +1428,21 @@
 
       const {
         error
-      } = await supabaseClient
+      } = await client
+
         .from("matches")
+
         .update({
 
-          status: "cancelled"
+          status:
+            "cancelled"
 
         })
-        .eq("id", matchId);
+
+        .eq(
+          "id",
+          matchId
+        );
 
 
       if (error) {
@@ -987,12 +1460,19 @@
 
       await loadMatches();
 
-    } catch (error) {
+    }
 
-      console.error(error);
+    catch (error) {
+
+      console.error(
+        "Cancel match error:",
+        error
+      );
+
 
       showMessage(
-        "خطا در لغو مسابقه: " + error.message,
+        "خطا در لغو مسابقه: " +
+        error.message,
         "error"
       );
 
@@ -1001,29 +1481,43 @@
   }
 
 
+
   /*
-    فعال کردن دوباره مسابقه لغوشده
-  */
-  async function restoreMatch(matchId) {
+   * بازگرداندن مسابقه لغوشده
+   */
+
+  async function restoreMatch(
+    matchId
+  ) {
 
     try {
 
       const {
         error
-      } = await supabaseClient
+      } = await client
+
         .from("matches")
+
         .update({
 
-          status: "scheduled",
+          status:
+            "scheduled",
 
-          player1_score: null,
+          player1_score:
+            null,
 
-          player2_score: null,
+          player2_score:
+            null,
 
-          played_at: null
+          played_at:
+            null
 
         })
-        .eq("id", matchId);
+
+        .eq(
+          "id",
+          matchId
+        );
 
 
       if (error) {
@@ -1041,12 +1535,19 @@
 
       await loadMatches();
 
-    } catch (error) {
+    }
 
-      console.error(error);
+    catch (error) {
+
+      console.error(
+        "Restore match error:",
+        error
+      );
+
 
       showMessage(
-        "خطا در بازگردانی مسابقه: " + error.message,
+        "خطا در بازگردانی مسابقه: " +
+        error.message,
         "error"
       );
 
@@ -1055,223 +1556,100 @@
   }
 
 
+
   /*
-    نمایش مسابقات
-  */
-  async function loadMatches() {
+   * ویرایش نتیجه مسابقه تمام‌شده
+   */
 
-    const tbody =
-      document.getElementById("matchesTableBody");
+  async function editFinishedMatch(
+    matchId,
+    oldScore1,
+    oldScore2
+  ) {
+
+    const score1 =
+      prompt(
+        "امتیاز بازیکن اول:",
+        oldScore1
+      );
 
 
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="7" class="loading">
-          ⏳ در حال دریافت مسابقات...
-        </td>
-      </tr>
-    `;
+    if (
+      score1 === null
+    ) {
+
+      return;
+
+    }
+
+
+    const score2 =
+      prompt(
+        "امتیاز بازیکن دوم:",
+        oldScore2
+      );
+
+
+    if (
+      score2 === null
+    ) {
+
+      return;
+
+    }
+
+
+    const number1 =
+      Number(score1);
+
+
+    const number2 =
+      Number(score2);
+
+
+    if (
+      !Number.isInteger(number1) ||
+      !Number.isInteger(number2) ||
+      number1 < 0 ||
+      number2 < 0
+    ) {
+
+      showMessage(
+        "امتیازها باید عدد صحیح صفر یا بیشتر باشند.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (
+      number1 === number2
+    ) {
+
+      showMessage(
+        "نتیجه مسابقه نمی‌تواند مساوی باشد.",
+        "error"
+      );
+
+      return;
+
+    }
 
 
     try {
 
-      const [
-        players,
-        matches
-      ] = await Promise.all([
+      const {
+        error
+      } = await client
 
-        getActivePlayers(),
+        .from("matches")
 
-        getAllMatches()
+        .update({
 
-      ]);
+          player1_score:
+            number1,
 
-
-      const playerMap = new Map();
-
-
-      players.forEach(player => {
-
-        playerMap.set(
-          Number(player.id),
-          player
-        );
-
-      });
-
-
-      /*
-        برای اینکه مسابقات بازیکنان غیرفعال
-        هم در تاریخچه قابل نمایش باشند،
-        بازیکنان غیرفعال را هم جداگانه می‌گیریم.
-      */
-      const allPlayerIds = new Set();
-
-
-      matches.forEach(match => {
-
-        allPlayerIds.add(Number(match.player1_id));
-
-        allPlayerIds.add(Number(match.player2_id));
-
-      });
-
-
-      const missingIds = [];
-
-
-      allPlayerIds.forEach(id => {
-
-        if (!playerMap.has(id)) {
-
-          missingIds.push(id);
-
-        }
-
-      });
-
-
-      if (missingIds.length > 0) {
-
-        const {
-          data: oldPlayers,
-          error: oldPlayersError
-        } = await supabaseClient
-          .from("players")
-          .select("id, name, class_name")
-          .in("id", missingIds);
-
-
-        if (!oldPlayersError && oldPlayers) {
-
-          oldPlayers.forEach(player => {
-
-            playerMap.set(
-              Number(player.id),
-              player
-            );
-
-          });
-
-        }
-
-      }
-
-
-      if (matches.length === 0) {
-
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="7" class="empty">
-              هنوز هیچ مسابقه‌ای ایجاد نشده است.
-            </td>
-          </tr>
-        `;
-
-        return;
-
-      }
-
-
-      tbody.innerHTML = "";
-
-
-      matches.forEach((match, index) => {
-
-        const player1 =
-          playerMap.get(Number(match.player1_id));
-
-        const player2 =
-          playerMap.get(Number(match.player2_id));
-
-
-        const player1Name =
-          player1 ? player1.name : "بازیکن حذف‌شده";
-
-        const player2Name =
-          player2 ? player2.name : "بازیکن حذف‌شده";
-
-
-        const row = document.createElement("tr");
-
-
-        let resultHTML = "";
-
-
-        if (match.status === "finished") {
-
-          resultHTML = `
-            <strong>
-              ${match.player1_score}
-              -
-              ${match.player2_score}
-            </strong>
-          `;
-
-        } else if (match.status === "cancelled") {
-
-          resultHTML = `
-            <span style="color:#991b1b;">
-              لغو شده
-            </span>
-          `;
-
-        } else {
-
-          resultHTML = `
-            <div class="result-area">
-
-              <input
-                id="score1-${match.id}"
-                class="result-input"
-                type="number"
-                min="0"
-                placeholder="۰"
-              >
-
-              <span class="result-separator">
-                -
-              </span>
-
-              <input
-                id="score2-${match.id}"
-                class="result-input"
-                type="number"
-                min="0"
-                placeholder="۰"
-              >
-
-            </div>
-          `;
-
-        }
-
-
-        let actionHTML = "";
-
-
-        if (match.status === "scheduled") {
-
-          actionHTML = `
-            <div style="display:flex;gap:7px;flex-wrap:wrap;">
-
-              <button
-                type="button"
-                class="save-btn"
-                onclick="saveResult(${match.id})"
-              >
-                💾 ثبت نتیجه
-              </button>
-
-              <button
-                type="button"
-                class="danger-btn"
-                onclick="cancelMatch(${match.id})"
-              >
-                لغو
-              </button>
-
-            </div>
-          `;
-
-        } else if (match.statu
+          player2_score:
+            n
