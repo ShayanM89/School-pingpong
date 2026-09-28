@@ -115,6 +115,7 @@
 
         .info-card p {
             color: #6b7280;
+            line-height: 1.9;
         }
 
         .table-container {
@@ -164,6 +165,7 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .finished {
@@ -176,6 +178,17 @@
             color: #a66a00;
         }
 
+        .cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px 20px;
+            color: #6b7280;
+        }
+
         .empty {
             text-align: center;
             padding: 50px 20px;
@@ -185,6 +198,16 @@
         .empty-icon {
             font-size: 45px;
             margin-bottom: 10px;
+        }
+
+        .error-box {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            display: none;
         }
 
         footer {
@@ -225,8 +248,10 @@
         }
 
     </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+
 </head>
 
 
@@ -251,11 +276,11 @@
                 مسابقات
             </a>
 
-            <a href="#">
+            <a href="standings.html">
                 رده‌بندی
             </a>
 
-            <a href="#">
+            <a href="login.html">
                 ورود مدیر
             </a>
 
@@ -264,7 +289,6 @@
     </div>
 
 </header>
-
 
 
 <section class="page-header">
@@ -276,13 +300,12 @@
         </h1>
 
         <p>
-            مشاهده برنامه و نتایج مسابقات لیگ
+            مشاهده برنامه و نتایج واقعی مسابقات لیگ
         </p>
 
     </div>
 
 </section>
-
 
 
 <main class="container content">
@@ -295,12 +318,14 @@
         </h2>
 
         <p>
-            تمام بازی‌های برگزارشده و برنامه بازی‌های آینده
-            در این صفحه نمایش داده خواهند شد.
+            تمام مسابقات ثبت‌شده در سیستم، شامل بازی‌های برنامه‌ریزی‌شده،
+            نتایج بازی‌های انجام‌شده و مسابقات لغوشده، در این صفحه نمایش داده می‌شوند.
         </p>
 
     </div>
 
+
+    <div id="errorBox" class="error-box"></div>
 
 
     <div class="table-container">
@@ -336,102 +361,15 @@
             </thead>
 
 
-            <tbody>
-
-
-                <!--
-                    بعداً این اطلاعات
-                    به صورت خودکار
-                    از دیتابیس می‌آیند.
-                -->
-
+            <tbody id="matchesBody">
 
                 <tr>
 
-                    <td>
-                        1
-                    </td>
-
-                    <td class="player">
-                        بازیکن اول
-                    </td>
-
-                    <td class="score">
-                        3 - 1
-                    </td>
-
-                    <td class="player">
-                        بازیکن دوم
-                    </td>
-
-                    <td>
-
-                        <span class="status finished">
-                            پایان یافته
-                        </span>
-
+                    <td colspan="5" class="loading">
+                        ⏳ در حال دریافت مسابقات...
                     </td>
 
                 </tr>
-
-
-                <tr>
-
-                    <td>
-                        2
-                    </td>
-
-                    <td class="player">
-                        بازیکن سوم
-                    </td>
-
-                    <td class="score">
-                        2 - 3
-                    </td>
-
-                    <td class="player">
-                        بازیکن چهارم
-                    </td>
-
-                    <td>
-
-                        <span class="status finished">
-                            پایان یافته
-                        </span>
-
-                    </td>
-
-                </tr>
-
-
-                <tr>
-
-                    <td>
-                        3
-                    </td>
-
-                    <td class="player">
-                        بازیکن پنجم
-                    </td>
-
-                    <td class="score">
-                        -
-                    </td>
-
-                    <td class="player">
-                        بازیکن ششم
-                    </td>
-
-                    <td>
-
-                        <span class="status waiting">
-                            برگزار نشده
-                        </span>
-
-                    </td>
-
-                </tr>
-
 
             </tbody>
 
@@ -441,7 +379,6 @@
 
 
 </main>
-
 
 
 <footer>
@@ -457,6 +394,312 @@
 </footer>
 
 
+<script>
+
+
+    const supabaseClient = window.supabaseClient;
+
+
+    /*
+        تبدیل متن به HTML امن
+    */
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /*
+        گرفتن وضعیت مسابقه
+    */
+    function getStatusText(status) {
+
+        if (status === "finished") {
+            return "پایان یافته";
+        }
+
+        if (status === "scheduled") {
+            return "برگزار نشده";
+        }
+
+        if (status === "cancelled") {
+            return "لغو شده";
+        }
+
+        return "نامشخص";
+
+    }
+
+
+    /*
+        کلاس وضعیت
+    */
+    function getStatusClass(status) {
+
+        if (status === "finished") {
+            return "finished";
+        }
+
+        if (status === "cancelled") {
+            return "cancelled";
+        }
+
+        return "waiting";
+
+    }
+
+
+    /*
+        دریافت بازیکنان
+    */
+    async function loadPlayers() {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("players")
+            .select("id, name")
+            .order("name", {
+                ascending: true
+            });
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        return data || [];
+
+    }
+
+
+    /*
+        دریافت مسابقات
+    */
+    async function loadMatches() {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("matches")
+            .select(`
+                id,
+                player1_id,
+                player2_id,
+                player1_score,
+                player2_score,
+                status,
+                created_at,
+                played_at
+            `)
+            .order("created_at", {
+                ascending: true
+            });
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        return data || [];
+
+    }
+
+
+    /*
+        نمایش مسابقات
+    */
+    async function displayMatches() {
+
+        const body =
+            document.getElementById("matchesBody");
+
+        const errorBox =
+            document.getElementById("errorBox");
+
+
+        try {
+
+            errorBox.style.display = "none";
+
+
+            const [
+                players,
+                matches
+            ] = await Promise.all([
+
+                loadPlayers(),
+
+                loadMatches()
+
+            ]);
+
+
+            /*
+                ساخت Map برای پیدا کردن نام بازیکن
+                از روی ID
+            */
+            const playerMap = new Map();
+
+
+            players.forEach(player => {
+
+                playerMap.set(
+                    Number(player.id),
+                    player.name
+                );
+
+            });
+
+
+            /*
+                اگر هیچ مسابقه‌ای وجود نداشته باشد
+            */
+            if (matches.length === 0) {
+
+                body.innerHTML = `
+
+                    <tr>
+
+                        <td colspan="5" class="empty">
+
+                            <div class="empty-icon">
+                                🏓
+                            </div>
+
+                            هنوز هیچ مسابقه‌ای در سیستم ثبت نشده است.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            body.innerHTML = "";
+
+
+            matches.forEach((match, index) => {
+
+
+                const player1Name =
+                    playerMap.get(Number(match.player1_id))
+                    || "بازیکن غیرفعال";
+
+
+                const player2Name =
+                    playerMap.get(Number(match.player2_id))
+                    || "بازیکن غیرفعال";
+
+
+                let result = "-";
+
+
+                if (match.status === "finished") {
+
+                    result = `
+                        ${escapeHTML(match.player1_score)}
+                        -
+                        ${escapeHTML(match.player2_score)}
+                    `;
+
+                }
+
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${index + 1}
+                    </td>
+
+                    <td class="player">
+                        ${escapeHTML(player1Name)}
+                    </td>
+
+                    <td class="score">
+                        ${result}
+                    </td>
+
+                    <td class="player">
+                        ${escapeHTML(player2Name)}
+                    </td>
+
+                    <td>
+
+                        <span class="status ${getStatusClass(match.status)}">
+                            ${getStatusText(match.status)}
+                        </span>
+
+                    </td>
+
+                `;
+
+
+                body.appendChild(row);
+
+            });
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            body.innerHTML = `
+
+                <tr>
+
+                    <td colspan="5" class="empty">
+
+                        خطا در دریافت مسابقات.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            errorBox.textContent =
+                "خطا در اتصال به دیتابیس: " + error.message;
+
+            errorBox.style.display = "block";
+
+        }
+
+    }
+
+
+    /*
+        اجرای صفحه
+    */
+    displayMatches();
+
+</script>
+
+
 </body>
 
-  </html>
+</html>
