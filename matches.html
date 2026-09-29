@@ -1,37 +1,464 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>مسابقات</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>مسابقات پینگ پونگ</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Tahoma,Arial,sans-serif;
+    background:#f3f4f6;
+    color:#222;
+}
+
+header{
+    background:#1f2937;
+    color:white;
+    text-align:center;
+    padding:25px 15px;
+}
+
+header h1{
+    margin:0 0 8px;
+    font-size:25px;
+}
+
+header p{
+    margin:0;
+    color:#d1d5db;
+}
+
+.container{
+    width:94%;
+    max-width:900px;
+    margin:25px auto;
+}
+
+.info{
+    background:white;
+    border-radius:14px;
+    padding:18px;
+    text-align:center;
+    margin-bottom:20px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+.info h2{
+    margin:0 0 10px;
+}
+
+.info p{
+    margin:0;
+    color:#666;
+    line-height:1.8;
+}
+
+.match{
+    background:white;
+    border-radius:14px;
+    margin-bottom:12px;
+    padding:16px;
+    box-shadow:0 3px 10px rgba(0,0,0,.07);
+    border-right:5px solid #2563eb;
+}
+
+.number{
+    color:#777;
+    font-size:13px;
+    margin-bottom:14px;
+}
+
+.players{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:25px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.vs{
+    color:#2563eb;
+    font-size:14px;
+}
+
+.status{
+    text-align:center;
+    margin-top:12px;
+    color:#777;
+    font-size:13px;
+}
+
+footer{
+    text-align:center;
+    padding:30px 10px;
+    color:#777;
+    font-size:13px;
+    line-height:2;
+}
+
+@media(max-width:500px){
+
+    header h1{
+        font-size:21px;
+    }
+
+    .players{
+        gap:12px;
+        font-size:16px;
+    }
+
+}
+
+</style>
+
 </head>
 
 <body>
 
+<header>
+
 <h1>🏓 مسابقات پینگ پونگ</h1>
 
-<ol>
-<li>شایان 🆚 کارن</li>
-<li>دانیال 🆚 رامیار</li>
-<li>کاروان 🆚 شایان</li>
-<li>کارن 🆚 دانیال</li>
-<li>رامیار 🆚 کاروان</li>
-<li>شایان 🆚 دانیال</li>
-<li>کارن 🆚 رامیار</li>
-<li>کاروان 🆚 دانیال</li>
-<li>شایان 🆚 رامیار</li>
-<li>کارن 🆚 کاروان</li>
-<li>کارن 🆚 شایان</li>
-<li>رامیار 🆚 دانیال</li>
-<li>شایان 🆚 کاروان</li>
-<li>دانیال 🆚 کارن</li>
-<li>کاروان 🆚 رامیار</li>
-<li>دانیال 🆚 شایان</li>
-<li>رامیار 🆚 کارن</li>
-<li>دانیال 🆚 کاروان</li>
-<li>رامیار 🆚 شایان</li>
-<li>کاروان 🆚 کارن</li>
-</ol>
+<p>مسابقات مدرسه</p>
+
+</header>
+
+
+<div class="container">
+
+<div class="info">
+
+<h2>📋 برنامه مسابقات</h2>
+
+<p>
+هر دو بازیکن دو بار با یکدیگر رقابت می‌کنند.
+<br>
+هر مسابقه فقط یک ست تا ۱۱ امتیاز است.
+</p>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۱</div>
+
+<div class="players">
+<span>شایان</span>
+<span class="vs">VS</span>
+<span>کارن</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۲</div>
+
+<div class="players">
+<span>دانیال</span>
+<span class="vs">VS</span>
+<span>رامیار</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۳</div>
+
+<div class="players">
+<span>کاروان</span>
+<span class="vs">VS</span>
+<span>شایان</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۴</div>
+
+<div class="players">
+<span>کارن</span>
+<span class="vs">VS</span>
+<span>دانیال</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۵</div>
+
+<div class="players">
+<span>رامیار</span>
+<span class="vs">VS</span>
+<span>کاروان</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۶</div>
+
+<div class="players">
+<span>شایان</span>
+<span class="vs">VS</span>
+<span>دانیال</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۷</div>
+
+<div class="players">
+<span>کارن</span>
+<span class="vs">VS</span>
+<span>رامیار</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۸</div>
+
+<div class="players">
+<span>کاروان</span>
+<span class="vs">VS</span>
+<span>دانیال</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۹</div>
+
+<div class="players">
+<span>شایان</span>
+<span class="vs">VS</span>
+<span>رامیار</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۱۰</div>
+
+<div class="players">
+<span>کارن</span>
+<span class="vs">VS</span>
+<span>کاروان</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۱۱</div>
+
+<div class="players">
+<span>کارن</span>
+<span class="vs">VS</span>
+<span>شایان</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۱۲</div>
+
+<div class="players">
+<span>رامیار</span>
+<span class="vs">VS</span>
+<span>دانیال</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۱۳</div>
+
+<div class="players">
+<span>شایان</span>
+<span class="vs">VS</span>
+<span>کاروان</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۱۴</div>
+
+<div class="players">
+<span>دانیال</span>
+<span class="vs">VS</span>
+<span>کارن</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۱۵</div>
+
+<div class="players">
+<span>کاروان</span>
+<span class="vs">VS</span>
+<span>رامیار</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۱۶</div>
+
+<div class="players">
+<span>دانیال</span>
+<span class="vs">VS</span>
+<span>شایان</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۱۷</div>
+
+<div class="players">
+<span>رامیار</span>
+<span class="vs">VS</span>
+<span>کارن</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۱۸</div>
+
+<div class="players">
+<span>دانیال</span>
+<span class="vs">VS</span>
+<span>کاروان</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۱۹</div>
+
+<div class="players">
+<span>رامیار</span>
+<span class="vs">VS</span>
+<span>شایان</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+
+<div class="match">
+
+<div class="number">مسابقه ۲۰</div>
+
+<div class="players">
+<span>کاروان</span>
+<span class="vs">VS</span>
+<span>کارن</span>
+</div>
+
+<div class="status">⏳ برگزار نشده</div>
+
+</div>
+
+</div>
+
+
+<footer>
+
+© شایان محمدی
+<br>
+Created by SHM89
+
+</footer>
 
 </body>
-</html>
+
+                               </html>
